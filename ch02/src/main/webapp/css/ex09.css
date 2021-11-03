@@ -1,0 +1,9 @@
+@charset "UTF-8";
+@import "main.css";
+
+body {
+	padding: 10px 20px 30px 40px;
+	margin: 50px;
+	font-family: inherit, sans-serif;
+}
+
