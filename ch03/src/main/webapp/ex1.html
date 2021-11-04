@@ -31,8 +31,8 @@ body {
 	padding: 10px 20px 30px 40px; /*(T,B) (R,L) */
 	padding: 10px; /* (T R B L)*/
 	
-	margin:  100px auto 300px;
 	margin:  100px auto;
+	margin-top:  100px;
 
 }
 
@@ -42,15 +42,29 @@ body {
 window.onload = function(){
 	elDiv = document.getElementById("box");
 	elDiv.onclick = function(){
-		console.log("click");
+		//console.log(this.style.marginTop);
+		var intervalId = setInterval(function(){
+			var marginTop = parseInt(elDiv.style.marginTop);
+				if(marginTop < 180){
+ 					clearInterval(intervalId);
+ 					return;
+				}
+				marginTop -= 10;
+				elDiv.style.marginTop = marginTop + "px";
+				console.log(marginTop);
+				
+		},1000);
+	
+	
 	}
 };
+
 
 </script>
 </head>
 
 <body>
-<div id="box" class="box1" >
+<div id="box" class="box1" style="margin-top: 200px">
 CSS에서 가장 보편적이고 많이 사용하는 마진과 패딩에 대한 값이 어떻게 적용되는지 확인해 보겠습니다.
 </div>
 
