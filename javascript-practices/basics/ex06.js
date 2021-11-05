@@ -1,0 +1,64 @@
+/*
+    자바스크립트 객체1 : object 타입
+
+    1. 자바스크립트 객체는 object타입과 function 타입 두가지가 있다.
+    2. 보통, function 타입객체는 함수라 부른다.
+    3. 따라서 자바스크립트에서 우리가 흔히 객체라 부르는 것은 object타입의 객체라 할 수 있다.
+
+*/
+
+// 생성방법1
+//생성자 함수를 사용하는 방법
+// Number,String , RegExp , Date, Array - 내장 생성자 함수
+// 그리고 사용자 정의 생성자 함수
+var o1 = new Object();
+o1.name = '둘리';
+o1.age = 10;
+o1.another = new Object();
+o1.another.name = '마이콜';
+o1.another.age = 30;
+
+console.log(o1);
+console.log(o1.another);
+
+var MyObject = function(name){
+    this.name = name;
+}
+
+var o = new MyObject('둘리');
+console.log(o.name);
+
+
+// 생성방법2
+// {} 리터럴을 사용하는 방법
+o2 = {};
+o2.name = '뽀로로';
+o2.age = 11;
+o2.another = new Object();
+o2.another.name = '루피';
+o2.another.age = 30;
+
+console.log(o2);
+
+
+// 생성방법3
+// (J)ava (S)cript (O)bject (N)otation
+
+var o3 = {
+    name: '에디',
+    age: 18,
+    another: {
+        name: '마이콜',
+        age: 30
+    }
+}
+
+console.log(o3);
+
+
+//XmlHttpRequest 호스트(브라우저) 객체를 사용해서 통신(Ajax)에서 데이터 교환의 포맷으로 JSON을 사용한다.
+var response = '{name: "둘리", age: 10, email: "dooly@gamil.com"}'; //String 타입으로 받는다.
+var uservo = eval("("+ response +")"); //eval로 실행한다. () 안에 값을 넣어야한다.
+
+console.log(uservo);
+
