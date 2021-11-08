@@ -50,7 +50,7 @@ for(prop in a5) {
 }
 
 o5 = {};
-o5.length = 0;
+o5.length = 3;
 o5[0] = 0;
 o5["1"] = 1;
 o5["name"] = "둘리";
