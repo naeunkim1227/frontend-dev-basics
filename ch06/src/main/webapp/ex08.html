@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+ window.addEventListener("load", function(){
+	 var imgElement = document.createElement("img");
+	
+	imgElement.src = "https://blog.kakaocdn.net/dn/bhEXuC/btqS3IlVDCm/O0WutWQTrEWdFtwxoAX5Rk/img.jpg";
+	imgElement.style.width = "200px";
+	imgElement.alt = "루피";
+	imgElement.title = "군침이싹도노";
+	imgElement['data-no'] = 10; // 비표준 속성
+ 
+ 	setTimeout(function(){
+ 		document.body.appendChild(imgElement);
+ 	},3000);
+
+ });
+</script>
+</head>
+<body>
+	<h1>DOM(Document Object Model)</h1>
+	<h2>2. HTML Element 속성 조작하기</h2>
+	
+	<ul>
+		<li no='1'>....</li>
+		<li>....</li>
+	
+	</ul>
+</body>
+
+</html>

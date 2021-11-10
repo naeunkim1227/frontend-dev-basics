@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+ window.addEventListener("load", function(){
+	 var imgElement = document.createElement("img");
+
+	 imgElement.setAttribute('src', 'https://img.etoday.co.kr/pto_db/2020/07/20200729012720_1491093_588_593.png' );
+	imgElement.setAttribute('style', 'width: 200px');
+	imgElement.setAttribute('alt', '루피~');
+	imgElement.setAttribute('title' , '루피만세');
+	imgElement['data-no'] = 20; /* property */
+	imgElement.setAttribute('data-no', 10);
+	
+ 
+ 	setTimeout(function(){
+ 		document.body.appendChild(imgElement);
+ 	},3000);
+
+ });
+</script>
+</head>
+<body>
+	<h1>DOM(Document Object Model)</h1>
+	<h2>2. HTML Element 속성 조작하기</h2>
+	
+	<ul>
+		<li no='1'>....</li>
+		<li>....</li>
+	
+	</ul>
+</body>
+
+</html>
