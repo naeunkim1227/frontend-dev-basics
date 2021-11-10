@@ -7,7 +7,7 @@
 <script type="text/javascript" src="./jquery/jquery-3.6.0.js"></script>
 <script type="text/javascript" src="./jquery/image-viewer.js"></script>
 <script>
-ImageViewer.changeimage();
+ImageViewer.init();
 </script> 
 
 <script type="text/javascript">
@@ -30,10 +30,10 @@ ImageViewer.changeimage();
 	<div class="image-viewer">
 		<div class="buttons">
 			<button id="btn-change">이미지 변경</button>
-			<button id="btn-slideshow">슬라이드 쇼 시작</button>
+			<button id="btn-slideshow" class="off">슬라이드 쇼 시작</button>
 		</div>
 		<div>
-			<img id="images" src="images/Desert.jpg" alt="사막" />
+			<img id="images" src="images/Desert.jpg" alt="사막" class="img"/>
 		</div>
 	</div>
 </body>
