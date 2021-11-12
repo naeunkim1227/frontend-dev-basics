@@ -23,7 +23,7 @@ public class RestApiController {
 	@PostMapping("")
 	public Object create(@RequestBody UserVo vo) {
 		vo.setNo(1L);
-		vo.setName("에디");
+		vo.setName("에디이거냐고ㅗ옹오오");
 		
 		return JsonResult.success(vo);
 	}
@@ -38,7 +38,7 @@ public class RestApiController {
 	public Object read(@PathVariable("no") Long no) {
 		UserVo vo = new UserVo();
 		vo.setNo(no);
-		vo.setName("에디22");
+		vo.setName("에testets");
 		vo.setEmail("eddu@asldfj.com");
 		vo.setGender("male");
 		

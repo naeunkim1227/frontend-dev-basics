@@ -34,7 +34,7 @@ public class ApiController {
 		XmlResult.GuestbookVo vo = new XmlResult.GuestbookVo();
 		vo.setName("루피");
 		vo.setNo(1L);
-		vo.setMessage("군침이..싹...도노..");
+		vo.setMessage("여기서 가져옵니다");
 		
 		return XmlResult.success(vo);
 	}

@@ -3,33 +3,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>sample1</title>
-<script type="text/javascript" src="./jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript" src="./jquery/jquery-3.6.0.js"></script>
 <script type="text/javascript">
+/*Jquery plug in */
+jQuery.fn.hello = function(){
+	console.log("Hello World");
+	console.log(this.length);
+	console.log(this.attr('title'));
+	return this;
+} 
 
-var images = [ 
-	"국화:Chrysanthemum.jpg", 
-	"사막:Desert.jpg", 
-	"수국:Hydrangeas.jpg", 
-	"해파리:Jellyfish.jpg", 
-	"코알라:Koala.jpg", 
-	"등대:Lighthouse.jpg", 
-	"펭귄:Penguins.jpg", 
-	"툴립:Tulips.jpg" ];
+$.fn.flash = function(){
+	var _this = this;
+	var isBlink = false;
+	
+	setInterval(function(){
+		_this.css('background-color', isBlink? '#f00' : '#EFEFEF' );
+		isBlink = !isBlink;
+	},1000);
+}
 
 $(function(){
+	$('h1').flash();
+	$("#btn").click(function(){
+		$(this)
+			.hello()
+			.flash();
 
-	$("button").click(function(){
-		// 랜덤 변수 
-		var result = Math.floor( Math.random() * (images.length-1)  ) + 1;
+			//체인을 걸리게 하려면 리턴값이 있어야 함 따라서 hello 함수에 리턴값을 선언해 주었다.
 	});
 	
 });
 </script>
 </head>
 <body>
-	<button>화면을 변경</button>
-	<p>
-		<img src="images/Desert.jpg" alt="사막" />
-	</p>
+	<h1>jQuery Plug In</h1>
+
+	<div style="width: 200px; margin: 50px auto;">
+		<button id="btn" title="click me">click me</button>	
+	</div>
 </body>
 </html>

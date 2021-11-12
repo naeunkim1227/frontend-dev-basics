@@ -24,9 +24,10 @@ $(function(){
 				type: 'post', //요청 method 
 				datatype: 'json',	//받을 포맷
 				contentType: 'application/json', 
-				data: JSON.stringify(vo),
+				data: JSON.stringify(vo), 
 				success: function(response){
 					console.log(response);
+					//controller에서 설정한 vo 데이터를 가져온다
 				}
 				
 			});
