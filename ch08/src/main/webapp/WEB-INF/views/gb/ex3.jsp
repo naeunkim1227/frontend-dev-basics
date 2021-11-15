@@ -1,122 +1,129 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${pageContext.request.contextPath }/jquery/jquery-3.6.0.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/ejs/ejs.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/jquery/jquery-3.6.0.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/ejs/ejs.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-var render = function(vo){
-	var html = "<li data-no='" +vo.no + "'>"+ 
-	"<strong>" + vo.name + "</strong>"+ 
-	"<p>"+ vo.message +"</p><strong></strong>" + 
-	"<a href='' data-no='" + vo.no + "'>삭제</a> </li>";
-	
-	return html;
-}
-
-var listItemEJS = new EJS({
-	url: '${pageContext.request.contextPath }/ejs/listItem-template.ejs'
-	
-	
+var listEJS = new EJS({
+	url: '${pageContext.request.contextPath }/ejs/list-template.ejs'
 });
 
+var startNo;
+var fetch = function() {
+	var url = '${pageContext.request.contextPath }/api/guestbook/list' + (startNo ? ('?sn=' + startNo) : '');
+	console.log(url);
+	
+	$.ajax({
+		url: url,
+		dataType: 'json',
+		type: 'get',
+		success: function(response) {
+			console.log(response);
+			
+			var html = listEJS.render(response);
+			$("#list-guestbook").append(html);
+			
+			startNo = $('#list-guestbook li').last().data('no') || 0;
+			console.log(startNo);
+		}
+	});
+}
+
 $(function(){
-	$("#add-form").submit(function(){
-		event.preventDefault();
-		vo = {}
-		
-		vo.name = $('#input-name').val();
-		vo.password = $('#input-password').val();
-		vo.message = $('#tx-content').val();
-		
-		console.log(vo);
-		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/api/guestbook/add',
-			type: 'post',
-			datatype: 'json',
-			contentType: 'application/json',
-			data: JSON.stringify(vo),
-			success: function(response){
-				console.log(response);
+	// ..
+	// ..
+	//삭제 다이얼로그
+	var dialogDelete = $("#dialog-delete-form").dialog({
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			"삭제" : function(){
+				//ajax 삭제
+				var no = $('#hidden-no').val();
+				var password = $('#password-delete').val();
+				var url = '${pageContext.request.contextPath }/api/guestbook/delete/ '+  no;
 				
-				
-				if(response.result !== 'success'){
-					console.error(response.message);
-					return;
-				}
-				
-				//var html = render(response.data);
-				var html = listItemEJS.render(response.data);
-				$("#list-guestbook").prepend(html);
-				$("#add-form")[0].reset();
-				
-				
+				$.ajax({
+					url: url,
+					type: 'post',
+					dataType: 'json',
+					data: 'password=' + password,
+					success: function(response){
+						console.log(response);
+						
+						
+						//삭제가 안된경우
+						if(response.data == -1){
+							$('.validateTips.error').show();
+							$('#password-delete').focus();
+						}
+						
+						//삭제가 된경우
+						$('#list-guestbook li[data-no='+ response.data + ']').remove();
+						dialogDelete.dialog('close');
+						
+					}
+				});
+
 			},
-			error: function(xhr, code, message){
-				//통신 실패시 실행할 함수
-				console.error(message);
+			"취소": function(){
+			
 			}
-		});
+		}
+	});
+	
+	//글 삭제 버튼(Live Event)
+	$(document).on('click',"#list-guestbook li a" , function(event){
+		//document에게 위임한다. 데이터가 새로 생기면..실행하게 하는...
+		event.preventDefault();
+
+		var no =$(this).data('no');
+		$('#hidden-no').val(no);
+		
+		
+		console.log(no);
+		
+		dialogDelete.dialog('open');
 		
 	});
 	
 	
-	
+	// 최초 리스트 가져오기
+	fetch();
 });
 </script>
 </head>
-<body>	
-	<h1>AJAX Test - GuestBook</h1>
+<body>
 	<div id="guestbook">
-				<h1>방명록</h1>
-				<form id="add-form" action="" method="post">
-					<input type="text" id="input-name" placeholder="이름">
-					<input type="password" id="input-password" placeholder="비밀번호">
-					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
-					<input type="submit" value="보내기" />
-				</form>
-				<ul id="list-guestbook">
-
-					<li data-no='2'>
-						<strong>지나가다가</strong>
-						<p>
-							별루입니다.<br>
-							비번:1234 -,.-
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-					<li data-no=''>
-						<strong>둘리</strong>
-						<p>
-							안녕하세요<br>
-							홈페이지가 개 굿 입니다.
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-
-					<li data-no=''>
-						<strong>주인</strong>
-						<p>
-							아작스 방명록 입니다.<br>
-							테스트~
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-									
-				</ul>
-			</div>
-	
+		<h1>방명록</h1>
+		<form id="add-form" action="" method="post">
+			<input type="text" id="input-name" placeholder="이름"> <input
+				type="password" id="input-password" placeholder="비밀번호">
+			<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
+			<input type="submit" value="보내기" />
+		</form>
+		<ul id="list-guestbook"></ul>
+	</div>
+	<div id="dialog-delete-form" title="메세지 삭제" style="display: none">
+		<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
+		<p class="validateTips error" style="display: none">비밀번호가 틀립니다.</p>
+		<form>
+			<input type="password" id="password-delete" value=""
+				class="text ui-widget-content ui-corner-all"> <input
+				type="hidden" id="hidden-no" value=""> <input type="submit"
+				tabindex="-1" style="position: absolute; top: -1000px">
+		</form>
+	</div>
 </body>
 </html>
